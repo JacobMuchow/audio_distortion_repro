@@ -9,5 +9,5 @@ npm install
 Start the app on localhost
 
 ```
-npm run start
+npm start
 ```
