@@ -8,7 +8,7 @@ class App extends React.Component {
   async initProcessor() {
     const microphoneStream = await navigator.mediaDevices.getUserMedia({
       audio: {
-        channelCount: 1
+        channelCount: { exact: 1 }
       },
       video: false
     })
@@ -19,8 +19,13 @@ class App extends React.Component {
 
     await audioCtx.audioWorklet.addModule('worklet/bypassProcessor.js')
     const processorNode = new AudioWorkletNode(audioCtx, 'bypass-processor')
+    // const processorNode = audioCtx.createGain()
 
     inputNode.connect(processorNode).connect(audioCtx.destination)
+
+    setInterval(() => {
+      processorNode.port.postMessage('log')
+    }, 5000)
   }
 
   render() {
